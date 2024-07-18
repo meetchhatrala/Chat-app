@@ -17,8 +17,10 @@ function Navbar() {
     <div>
         <nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark">
         <div class="container-fluid">
+          {/* <a class="navbar-brand" href="#"> */}
           <a class="navbar-brand" href="#">
-            <img style={{width:"120px", padding:"6px"}} src="https://i.imgur.com/juL1aAc.png" alt="" />
+            {/* <img style={{width:"120px", padding:"6px"}} src="https://i.imgur.com/juL1aAc.png" alt="" /> */}
+            <img style={{width:"120px", padding:"6px"}} src="Chatapp\frontend\src\views\style\logo1.png" alt="ChatWeb" />
 
           </a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -27,7 +29,8 @@ function Navbar() {
           <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ">
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#"> <i className='fas fa-home'></i> Home</a>
+                {/* <a class="nav-link active" aria-current="page" href="#"> <i className='fas fa-home'></i> Home</a> */}
+                <Link class="nav-link"  to="/"> <i className='fas fa-home'></i> Home</Link>
               </li>
               {token === null && 
               <>
@@ -42,12 +45,12 @@ function Navbar() {
 
             {token !== null && 
               <>
-                <li class="nav-item">
+                {/* <li class="nav-item">
                   <Link class="nav-link" to="/dashboard"> <i className='fas fa-th'></i> Dashboard</Link>
                 </li>
                 <li class="nav-item">
                   <Link class="nav-link" to="/todo"> <i className='fas fa-pen'></i> Todo</Link>
-                </li>
+                </li> */}
                 <li class="nav-item">
                   <Link class="nav-link" to="/inbox"> <i className='fas fa-envelope'></i> Inbox</Link>
                 </li>
