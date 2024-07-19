@@ -15,7 +15,7 @@ function MessageDetail() {
   const [profile, setProfile] = useState([])
   let [newMessage, setnewMessage] = useState({message: "",});
   let [newSearch, setnewSearch] = useState({search: "",});
-
+  const [selectedFile, setSelectedFile] = useState(null); // Added new line
 
   const axios = useAxios()
   const id = useParams()
@@ -50,7 +50,8 @@ function MessageDetail() {
     return () => {
       clearInterval(interval);
     };
-  }, []);
+  // }, []);
+  }, [id.id]); // Add id.id as dependency
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -64,7 +65,8 @@ function MessageDetail() {
               console.log(error);
             }}
         fetchProfile()
-  }, [])
+  // }, [])
+  }, [id.id]); // Added id.id as dependency
 
   // capture changes made by the user in those fields and update the component's state accordingly.
   const handleChange = (event) => {
@@ -73,6 +75,11 @@ function MessageDetail() {
       [event.target.name]: event.target.value,
     });
   };
+  //added below function
+    // Add handleFileChange function here
+    const handleFileChange = (event) => {
+      setSelectedFile(event.target.files[0]);
+    };
 
   // Send Message
   const SendMessage = () => {
@@ -83,10 +90,16 @@ function MessageDetail() {
     formdata.append("message", newMessage.message)
     formdata.append("is_read", false)
 
+    //added below if block
+    if (selectedFile) {
+      formdata.append("file", selectedFile);
+    }
     try {
         axios.post(baseURL + '/send-messages/', formdata).then((res) => {
           document.getElementById("text-input").value = "";
           setnewMessage(newMessage = "")
+          //added below line
+          setSelectedFile(null); // Clear the selected file
         })
     } catch (error) {
         console.log("error ===", error);
@@ -297,6 +310,17 @@ function MessageDetail() {
                       id='text-input'
                       onChange={handleChange}
                     />
+                    {/* added code */}
+                    <input
+                    type="file"
+                    className="form-control"
+                    accept=".pdf"
+                    onChange={handleFileChange}
+                    style={{ display: 'none' }}
+                    id="file-input"
+                  />
+                  <label htmlFor="file-input" className="btn btn-secondary ml-2">Select PDF</label>
+                  {/* addition over */}
                     <button onClick={SendMessage} className="btn btn-primary">Send</button>
                   </div>
                 </div>
