@@ -26,10 +26,7 @@ function Homepage() {
         <div className="col-md-4">
           <h2>File Sharing</h2>
           <p>
-            Donec id elit non mi porta gravida at eget metus. Fusce dapibus,
-            tellus ac cursus commodo, tortor mauris condimentum nibh, ut
-            fermentum massa justo sit amet risus. Etiam porta sem malesuada
-            magna mollis euismod. Donec sed odio dui.{" "}
+          It's convenient when you're about to print something at a xerox center. If you don't want to save the shop's number, you can simply use the QR code scanner option to directly access their chat.{" "}
           </p>
           <p>
             <a className="btn btn-secondary" href="#" role="button">

@@ -20,7 +20,7 @@ function Navbar() {
           {/* <a class="navbar-brand" href="#"> */}
           <a class="navbar-brand" href="#">
             {/* <img style={{width:"120px", padding:"6px"}} src="https://i.imgur.com/juL1aAc.png" alt="" /> */}
-            <img style={{width:"120px", padding:"6px"}} src="Chatapp\frontend\src\views\style\logo1.png" alt="ChatWeb" />
+            <img style={{width:"120px", padding:"6px"}} src="..\src\views\style\logo.png" alt="ChatWeb" />
 
           </a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -54,6 +54,13 @@ function Navbar() {
                 <li class="nav-item">
                   <Link class="nav-link" to="/inbox"> <i className='fas fa-envelope'></i> Inbox</Link>
                 </li>
+                {/* Added for qr scanner */}
+                <li className="nav-item">
+                    <Link className="nav-link" to="/qr-scanner">
+                      <i className="fas fa-qrcode"></i> QR Scanner
+                    </Link>
+                  </li>
+                  
                 <li class="nav-item">
                   <a class="nav-link" onClick={logoutUser} style={{cursor:"pointer"}}> <i className='fas fa-sign-out-alt'></i>Logout</a>
                 </li>

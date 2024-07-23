@@ -273,7 +273,7 @@ function MessageDetail() {
                             </div>
                           </div>
                           <div className="flex-shrink-1 bg-light rounded py-2 px-3 mr-3">
-                            <div className="font-weight-bold mb-1">You</div>
+                            <div className="font-weight-bold mb-1">You1</div>
                             {message.message}
                             <br />
                               <span className='mt-3'>{moment.utc(message.date).local().startOf('seconds').fromNow()}</span>
