@@ -24,6 +24,11 @@ function Message() {
   const username = decoded.username
   const history = useHistory()
 
+  /*for pdf */
+  const [file, setFile] = useState(null);
+const [preview, setPreview] = useState(null);
+
+
   useEffect(() => {
     try {
       // Send a get request to the api endpoint to get the message of the logged in user
@@ -46,20 +51,81 @@ function Message() {
 
   };
 
-  const SearchUser = () => {
-    axios.get(baseURL + '/search/' + newSearch.username + '/')
-        .then((res) => {
-            if (res.status === 404) {
-                console.log(res.data.detail);
-                alert("User does not exist");
-            } else {
-                history.push('/search/'+newSearch.username+'/');
-            }
-        })
-        .catch((error) => {
-            alert("User Does Not Exist")
-        });
+//   const SearchUser = () => {
+//     axios.get(baseURL + '/search/' + newSearch.username + '/')
+//         .then((res) => {
+//             if (res.status === 404) {
+//                 console.log(res.data.detail);
+//                 alert("User does not exist");
+//             } else {
+//                 history.push('/search/'+newSearch.username+'/');
+//             }
+//         })
+//         .catch((error) => {
+//             alert("User Does Not Exist")
+//         });
+// };
+const SearchUser = () => {
+  if (!newSearch.username.trim()) {
+    alert("Please enter a username to search.");
+    return;
+  }
+
+  axios.get(`${baseURL}/search/${newSearch.username}/`)
+    .then((res) => {
+      if (res.status === 404) {
+        alert("User does not exist");
+      } else {
+        history.push(`/search/${newSearch.username}/`);
+      }
+    })
+    .catch((error) => {
+      console.error("Search error:", error);
+      alert("An error occurred while searching for the user.");
+    });
 };
+/* Handle File Uploads added */
+const handleFileChange = (event) => {
+  const selectedFile = event.target.files[0];
+  setFile(selectedFile);
+  if (selectedFile) {
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setPreview(reader.result);
+    };
+    reader.readAsDataURL(selectedFile);
+  } else {
+    setPreview(null);
+  }
+};
+
+const handleSendFile = () => {
+  if (!file) {
+    alert("Please select a file to send.");
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append("file", file);
+
+  axios.post(`${baseURL}/send-file/`, formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  })
+  .then(response => {
+    console.log("File sent successfully:", response.data);
+    // Handle successful file send, e.g., clear file input
+    setFile(null);
+    setPreview(null);
+  })
+  .catch(error => {
+    console.error("Error sending file:", error);
+    alert("An error occurred while sending the file.");
+  });
+};
+/*ended*/
+
   return (
     <div>
       <main className="content" style={{ marginTop: "150px" }}>

@@ -11,7 +11,7 @@ sqlparse==0.4.2
 toml==0.10.2
 tzdata==2021.5
 
-
+#installed apps from setting.py 
 django-jazzmin
 django-import-export
 django-crispy-forms
