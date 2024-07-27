@@ -55,11 +55,11 @@ function Navbar() {
                   <Link class="nav-link" to="/inbox"> <i className='fas fa-envelope'></i> Inbox</Link>
                 </li>
                 {/* Added for qr scanner */}
-                <li className="nav-item">
+                {/* <li className="nav-item">
                     <Link className="nav-link" to="/qr-scanner">
                       <i className="fas fa-qrcode"></i> QR Scanner
                     </Link>
-                  </li>
+                  </li> */}
                   
                 <li class="nav-item">
                   <a class="nav-link" onClick={logoutUser} style={{cursor:"pointer"}}> <i className='fas fa-sign-out-alt'></i>Logout</a>

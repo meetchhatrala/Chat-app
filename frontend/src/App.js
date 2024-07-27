@@ -13,8 +13,8 @@ import Todo from './views/Todo'
 import Message from './views/Message'
 import MessageDetail from './views/MessageDetail'
 import SearchUsers from './views/SearchUsers'
-import QrScannerComponent from './views/QrScanner'
-import PdfViewer from './views/PdfViewer';
+// import QrScannerComponent from './views/QrScanner'
+// import PdfViewer from './views/PdfViewer';
 
 
 function App() {
@@ -33,7 +33,7 @@ function App() {
           <Route component={SearchUsers} path="/search/:username" exact />
           <Route component={MessageDetail} path="/inbox-message/:id/" exact />
           
-          <Route component={QrScannerComponent} path="/qr-scanner" exact /> 
+          {/* <Route component={QrScannerComponent} path="/qr-scanner" exact />  */}
           {/* <Route component={PdfViewer} path="/pdf-viewer" exact />  */}
         </Switch>
       </AuthProvider>
