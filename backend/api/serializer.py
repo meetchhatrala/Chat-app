@@ -22,6 +22,7 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         token['email'] = user.email
         token['bio'] = user.profile.bio
         token['image'] = str(user.profile.image)
+        token['qr_code'] = str(user.profile.qr_code)
         token['verified'] = user.profile.verified
         # ...
         return token
@@ -68,7 +69,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Profile
-        fields = [ 'id',  'user',  'full_name', 'image' ]
+        fields = [ 'id',  'user',  'full_name', 'image', 'qr_code' ]
     
     def __init__(self, *args, **kwargs):
         super(ProfileSerializer, self).__init__(*args, **kwargs)
