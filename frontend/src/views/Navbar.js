@@ -49,26 +49,30 @@ function Navbar() {
                 </>
               }
 
-              {token !== null &&
-                <>
-                  <li className="nav-item">
-                    <Link className="nav-link" to="/inbox"> <i className='fas fa-envelope'></i> Inbox</Link>
-                  </li>
-                  <li className="nav-item">
+            {token !== null && 
+              <>
+                {/* <li class="nav-item">
+                  <Link class="nav-link" to="/dashboard"> <i className='fas fa-th'></i> Dashboard</Link>
+                </li>
+                <li class="nav-item">
+                  <Link class="nav-link" to="/todo"> <i className='fas fa-pen'></i> Todo</Link>
+                </li> */}
+                <li class="nav-item">
+                  <Link class="nav-link" to="/inbox"> <i className='fas fa-envelope'></i> Inbox</Link>
+                </li>
+                {/* Added for qr scanner */}
+                {/* <li className="nav-item">
                     <Link className="nav-link" to="/qr-scanner">
                       <i className="fas fa-qrcode"></i> QR Scanner
                     </Link>
-                  </li>
-                  <li className="nav-item">
-                    <a className="nav-link" onClick={handleShowModal} style={{ cursor: "pointer" }}>
-                      <i className="fas fa-user-circle"></i> My QR
-                    </a>
-                  </li>
-                  <li className="nav-item">
-                    <a className="nav-link" onClick={logoutUser} style={{ cursor: "pointer" }}> <i className='fas fa-sign-out-alt'></i> Logout</a>
-                  </li>
-                </>
-              }
+                  </li> */}
+                  
+                <li class="nav-item">
+                  <a class="nav-link" onClick={logoutUser} style={{cursor:"pointer"}}> <i className='fas fa-sign-out-alt'></i>Logout</a>
+                </li>
+              </>
+              }   
+              
             </ul>
           </div>
         </div>

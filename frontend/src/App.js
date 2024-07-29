@@ -14,7 +14,7 @@ import Message from './views/Message'
 import MessageDetail from './views/MessageDetail'
 import SearchUsers from './views/SearchUsers'
 // import QrScannerComponent from './views/QrScanner'
-import PdfViewer from './views/PdfViewer';
+// import PdfViewer from './views/PdfViewer';
 
 
 function App() {

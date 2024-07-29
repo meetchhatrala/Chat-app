@@ -14,7 +14,10 @@
     "qrcode.react": "^3.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+<<<<<<< HEAD
     "react-qr-scanner": "^1.0.0-alpha.11",
+=======
+>>>>>>> b2e3fb28f8e4b0a9dce1c1c36973af8b0e0b989d
     "react-router-dom": "^5.2.0",
     "react-scripts": "5.0.1",
     "sweetalert2": "^11.7.5",
