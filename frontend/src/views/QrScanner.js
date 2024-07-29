@@ -25,6 +25,7 @@ const QrScannerComponent = () => {
     console.log('Scanning data:', data);
     if (data) {
       setResult(data);
+      console.log("data is : " + data);
       // Stop scanning after getting the result
       setIsScanning(false);
     }
