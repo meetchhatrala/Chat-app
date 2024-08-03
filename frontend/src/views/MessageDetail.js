@@ -280,27 +280,7 @@ function MessageDetail() {
                           </div>
                         </div>
                       }
-                      {message.sender.id === user_id &&  
-                        <div className="chat-message-right pb-4" key={index}>
-                          <div>
-                            <img src={message.sender_profile.image} className="rounded-circle mr-1" alt="{message.reciever_profile.full_name}" style={{objectFit:"cover"}} width={40} height={40}/>
-                            <br />
-                            <div className="text-muted small text-nowrap mt-2">{moment.utc(message.date).local().startOf('seconds').fromNow()}</div>
-                          </div>
-                          <div className="flex-shrink-1 bg-light rounded py-2 px-3 ml-3">
-                            <div className="font-weight-bold mb-1">{message.reciever_profile.full_name}</div>
-                            {message.message}
-                          </div>
-                        </div>
-                      }
-
-
-
-
-
-
-
-
+                      
                       {/* file show option */}
 
                       <>
@@ -313,7 +293,7 @@ function MessageDetail() {
         </div>
         <div className="flex-shrink-1 bg-light rounded py-2 px-3 mr-3">
           <div className="font-weight-bold mb-1">You1</div>
-          {message.message}
+          
           {message.file && (
             <div>
               <a href={message.file} target="_blank" rel="noopener noreferrer">View Attachment</a>
@@ -324,24 +304,7 @@ function MessageDetail() {
         </div>
       </div>
     }
-    {message.sender.id === user_id &&  
-      <div className="chat-message-right pb-4" key={index}>
-        <div>
-          <img src={message.sender_profile.image} className="rounded-circle mr-1" alt="{message.reciever_profile.full_name}" style={{objectFit:"cover"}} width={40} height={40}/>
-          <br />
-          <div className="text-muted small text-nowrap mt-2">{moment.utc(message.date).local().startOf('seconds').fromNow()}</div>
-        </div>
-        <div className="flex-shrink-1 bg-light rounded py-2 px-3 ml-3">
-          <div className="font-weight-bold mb-1">{message.reciever_profile.full_name}</div>
-          {message.message}
-          {message.file && (
-            <div>
-              <a href={message.file} target="_blank" rel="noopener noreferrer">View Attachment</a>
-            </div>
-          )}
-        </div>
-      </div>
-    }
+    
   </>
                       
 
