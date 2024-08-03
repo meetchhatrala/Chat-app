@@ -1,48 +1,49 @@
-import React from 'react'
-import './style/Message.css'
-import { useState, useEffect } from 'react'
-import useAxios from '../utils/useAxios'
-import jwtDecode from 'jwt-decode'
-import { Link, useParams, useHistory } from 'react-router-dom/'
-import moment from 'moment';
+import React from "react";
+import "./style/Message.css";
+import { useState, useEffect } from "react";
+import useAxios from "../utils/useAxios";
+import jwtDecode from "jwt-decode";
+import { Link, useParams, useHistory } from "react-router-dom/";
+import moment from "moment";
 
 function MessageDetail() {
-
-  const baseURL = 'http://127.0.0.1:8000/api'
-  const [messages, setMessages] = useState([])
-  const [message, setMessage] = useState([])
-  const [user, setUser] = useState([])
-  const [profile, setProfile] = useState([])
-  let [newMessage, setnewMessage] = useState({message: "",});
-  let [newSearch, setnewSearch] = useState({search: "",});
+  const baseURL = "http://127.0.0.1:8000/api";
+  const [messages, setMessages] = useState([]);
+  const [message, setMessage] = useState([]);
+  const [user, setUser] = useState([]);
+  const [profile, setProfile] = useState([]);
+  let [newMessage, setnewMessage] = useState({ message: "" });
+  let [newSearch, setnewSearch] = useState({ search: "" });
   const [selectedFile, setSelectedFile] = useState(null); // Added new line
 
-  const axios = useAxios()
-  const id = useParams()
-  const token = localStorage.getItem('authTokens');
-  const decoded = jwtDecode(token)
-  const user_id = decoded.user_id
-  const username = decoded.username
-  const history = useHistory()
+  const axios = useAxios();
+  const id = useParams();
+  const token = localStorage.getItem("authTokens");
+  const decoded = jwtDecode(token);
+  const user_id = decoded.user_id;
+  const username = decoded.username;
+  const history = useHistory();
 
   useEffect(() => {
     try {
-      axios.get(baseURL + '/my-messages/' + user_id + '/').then((res) => {
-        setMessages(res.data)
-      })
+      axios.get(baseURL + "/my-messages/" + user_id + "/").then((res) => {
+        setMessages(res.data);
+      });
     } catch (error) {
       console.log(error);
     }
-  }, [])
+  }, []);
 
   // Get all messages for a conversation
   useEffect(() => {
     let interval = setInterval(() => {
       try {
-        axios.get(baseURL + '/get-messages/' + user_id + '/' + id.id + '/').then((res) => {
-          setMessage(res.data)
-          console.log(res.data);
-        })
+        axios
+          .get(baseURL + "/get-messages/" + user_id + "/" + id.id + "/")
+          .then((res) => {
+            setMessage(res.data);
+            console.log(res.data);
+          });
       } catch (error) {
         console.log(error);
       }
@@ -50,22 +51,22 @@ function MessageDetail() {
     return () => {
       clearInterval(interval);
     };
-  // }, []);
+    // }, []);
   }, [id.id]); // Add id.id as dependency
 
   useEffect(() => {
     const fetchProfile = async () => {
-          try {
-            await axios.get(baseURL + '/profile/' + id.id + '/').then((res) => {
-              setProfile(res.data)
-              setUser(res.data.user)
-            })
-              
-          }catch (error) {
-              console.log(error);
-            }}
-        fetchProfile()
-  // }, [])
+      try {
+        await axios.get(baseURL + "/profile/" + id.id + "/").then((res) => {
+          setProfile(res.data);
+          setUser(res.data.user);
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchProfile();
+    // }, [])
   }, [id.id]); // Added id.id as dependency
 
   // capture changes made by the user in those fields and update the component's state accordingly.
@@ -76,62 +77,60 @@ function MessageDetail() {
     });
   };
   //added below function
-    // Add handleFileChange function here
-    const handleFileChange = (event) => {
-      setSelectedFile(event.target.files[0]);
-    };
+  // Add handleFileChange function here
+  const handleFileChange = (event) => {
+    setSelectedFile(event.target.files[0]);
+  };
 
   // Send Message
   const SendMessage = () => {
-    const formdata = new FormData()
-    formdata.append("user", user_id)
-    formdata.append("sender", user_id)
-    formdata.append("reciever", id.id)
-    formdata.append("message", newMessage.message)
-    formdata.append("is_read", false)
+    const formdata = new FormData();
+    formdata.append("user", user_id);
+    formdata.append("sender", user_id);
+    formdata.append("reciever", id.id);
+    formdata.append("message", newMessage.message);
+    formdata.append("is_read", false);
 
     //added below if block
     if (selectedFile) {
       formdata.append("file", selectedFile);
     }
     try {
-        axios.post(baseURL + '/send-messages/', formdata).then((res) => {
-          document.getElementById("text-input").value = "";
-          setnewMessage(newMessage = "")
-          //added below line
-          setSelectedFile(null); // Clear the selected file
-        })
+      axios.post(baseURL + "/send-messages/", formdata).then((res) => {
+        document.getElementById("text-input").value = "";
+        setnewMessage((newMessage = ""));
+        //added below line
+        setSelectedFile(null); // Clear the selected file
+      });
     } catch (error) {
-        console.log("error ===", error);
+      console.log("error ===", error);
     }
-
-  }
+  };
 
   const handleSearchChange = (event) => {
     setnewSearch({
       ...newSearch,
       [event.target.name]: event.target.value,
     });
-
   };
 
   console.log(newSearch.username);
 
   const SearchUser = () => {
-    axios.get(baseURL + '/search/' + newSearch.username + '/')
-        .then((res) => {
-            if (res.status === 404) {
-                console.log(res.data.detail);
-                alert("User does not exist");
-            } else {
-                history.push('/search/'+newSearch.username+'/');
-            }
-        })
-        .catch((error) => {
-            alert("User Does Not Exist")
-        });
-};
-
+    axios
+      .get(baseURL + "/search/" + newSearch.username + "/")
+      .then((res) => {
+        if (res.status === 404) {
+          console.log(res.data.detail);
+          alert("User does not exist");
+        } else {
+          history.push("/search/" + newSearch.username + "/");
+        }
+      })
+      .catch((error) => {
+        alert("User Does Not Exist");
+      });
+  };
 
   return (
     <div>
@@ -149,43 +148,74 @@ function MessageDetail() {
                         className="form-control my-3"
                         placeholder="Search..."
                         onChange={handleSearchChange}
-                        name='username'
-
+                        name="username"
                       />
-                      <button className='ml-2' onClick={SearchUser} style={{border:"none", borderRadius:"50%"}}><i className='fas fa-search'></i></button>
+                      <button
+                        className="ml-2"
+                        onClick={SearchUser}
+                        style={{ border: "none", borderRadius: "50%" }}
+                      >
+                        <i className="fas fa-search"></i>
+                      </button>
                     </div>
                   </div>
                 </div>
-                {messages.map((message) =>
-                  <Link 
-                    to={"/inbox-message/" + (message.sender.id === user_id ? message.reciever.id : message.sender.id) + "/"}
+                {messages.map((message) => (
+                  <Link
+                    to={
+                      "/inbox-message/" +
+                      (message.sender.id === user_id
+                        ? message.reciever.id
+                        : message.sender.id) +
+                      "/"
+                    }
                     href="#"
                     className="list-group-item list-group-item-action border-0"
                   >
-                    <small><div className="badge bg-success float-right text-white">{moment.utc(message.date).local().startOf('seconds').fromNow()}</div></small>
+                    <small>
+                      <div className="badge bg-success float-right text-white">
+                        {moment
+                          .utc(message.date)
+                          .local()
+                          .startOf("seconds")
+                          .fromNow()}
+                      </div>
+                    </small>
                     <div className="d-flex align-items-start">
-                    {message.sender.id !== user_id && 
-                      <img src={message.sender_profile.image} className="rounded-circle mr-1" alt="1" width={40} height={40}/>
-                    }
-                    {message.sender.id === user_id && 
-                      <img src={message.reciever_profile.image} className="rounded-circle mr-1" alt="2" width={40} height={40}/>
-                    }
+                      {message.sender.id !== user_id && (
+                        <img
+                          src={message.sender_profile.image}
+                          className="rounded-circle mr-1"
+                          alt="1"
+                          width={40}
+                          height={40}
+                        />
+                      )}
+                      {message.sender.id === user_id && (
+                        <img
+                          src={message.reciever_profile.image}
+                          className="rounded-circle mr-1"
+                          alt="2"
+                          width={40}
+                          height={40}
+                        />
+                      )}
                       <div className="flex-grow-1 ml-3">
-                          {message.sender.id === user_id && 
-                            (message.reciever_profile.full_name !== null ? message.reciever_profile.full_name : message.reciever.username)
-                          }
+                        {message.sender.id === user_id &&
+                          (message.reciever_profile.full_name !== null
+                            ? message.reciever_profile.full_name
+                            : message.reciever.username)}
 
-                          {message.sender.id !== user_id && 
-                            (message.sender.username) 
-                          }
+                        {message.sender.id !== user_id &&
+                          message.sender.username}
                         <div className="small">
-                           <small>{message.message}</small>
+                          <small>{message.message}</small>
                         </div>
                       </div>
                     </div>
-                    </Link>
-                )}
-                
+                  </Link>
+                ))}
+
                 <hr className="d-block d-lg-none mt-1 mb-0" />
               </div>
               <div className="col-12 col-lg-7 col-xl-9">
@@ -237,7 +267,14 @@ function MessageDetail() {
                           className="feather feather-video feather-lg"
                         >
                           <polygon points="23 7 16 12 23 17 23 7" />
-                          <rect x={1} y={5} width={15} height={14} rx={2} ry={2} />
+                          <rect
+                            x={1}
+                            y={5}
+                            width={15}
+                            height={14}
+                            rx={2}
+                            ry={2}
+                          />
                         </svg>
                       </button>
                       <button className="btn btn-light border btn-lg px-3">
@@ -263,9 +300,9 @@ function MessageDetail() {
                 </div>
                 <div className="position-relative">
                   <div className="chat-messages p-4">
-                    {message.map((message, index) => 
-                    <>
-                      {message.sender.id !== user_id &&  
+                    {message.map((message, index) => (
+                      <>
+                        {/* {message.sender.id !== user_id &&  
                         <div className="chat-message-left pb-4" key={index}>
                           <div>
                             <img src={message.sender_profile.image} className="rounded-circle mr-1" alt="Chris Wood" style={{objectFit:"cover"}} width={40} height={40}/>
@@ -280,37 +317,110 @@ function MessageDetail() {
                           </div>
                         </div>
                       }
-                      
-                      {/* file show option */}
+                      {message.sender.id === user_id &&  
+                        <div className="chat-message-right pb-4" key={index}>
+                          <div>
+                            <img src={message.sender_profile.image} className="rounded-circle mr-1" alt="{message.reciever_profile.full_name}" style={{objectFit:"cover"}} width={40} height={40}/>
+                            <br />
+                            <div className="text-muted small text-nowrap mt-2">{moment.utc(message.date).local().startOf('seconds').fromNow()}</div>
+                          </div>
+                          <div className="flex-shrink-1 bg-light rounded py-2 px-3 ml-3">
+                            <div className="font-weight-bold mb-1">{message.reciever_profile.full_name}</div>
+                            {message.message}
+                          </div>
+                        </div>
+                      } */}
 
-                      <>
-    {message.sender.id !== user_id &&  
-      <div className="chat-message-left pb-4" key={index}>
-        <div>
-          <img src={message.sender_profile.image} className="rounded-circle mr-1" alt="Chris Wood" style={{objectFit:"cover"}} width={40} height={40}/>
-          <div className="text-muted small text-nowrap mt-2">
-          </div>
-        </div>
-        <div className="flex-shrink-1 bg-light rounded py-2 px-3 mr-3">
-          <div className="font-weight-bold mb-1">You1</div>
-          
-          {message.file && (
-            <div>
-              <a href={message.file} target="_blank" rel="noopener noreferrer">View Attachment</a>
-            </div>
-          )}
-          <br />
-          <span className='mt-3'>{moment.utc(message.date).local().startOf('seconds').fromNow()}</span>
-        </div>
-      </div>
-    }
-    
-  </>
-                      
+                        {/* file show option */}
 
-                    </>
-                    )}
-                    
+                        <>
+                          {message.sender.id !== user_id && (
+                            <div className="chat-message-left pb-4" key={index}>
+                              <div>
+                                <img
+                                  src={message.sender_profile.image}
+                                  className="rounded-circle mr-1"
+                                  alt="Chris Wood"
+                                  style={{ objectFit: "cover" }}
+                                  width={40}
+                                  height={40}
+                                />
+                                <div className="text-muted small text-nowrap mt-2"></div>
+                              </div>
+                              <div className="flex-shrink-1 bg-light rounded py-2 px-3 mr-3">
+                                <div className="font-weight-bold mb-1">
+                                  {/* You1 */}
+                                  {message.sender_profile.full_name}
+                                </div>
+                                {message.message}
+                                {message.file && (
+                                  <div>
+                                    <a
+                                      href={message.file}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                    >
+                                      View Attachment
+                                    </a>
+                                  </div>
+                                )}
+                                <br />
+                                <span className="mt-3">
+                                  {moment
+                                    .utc(message.date)
+                                    .local()
+                                    .startOf("seconds")
+                                    .fromNow()}
+                                </span>
+                              </div>
+                            </div>
+                          )}
+                          {message.sender.id === user_id && (
+                            <div
+                              className="chat-message-right pb-4"
+                              key={index}
+                            >
+                              <div>
+                                <img
+                                  src={message.sender_profile.image}
+                                  className="rounded-circle mr-1"
+                                  alt="{message.reciever_profile.full_name}"
+                                  style={{ objectFit: "cover" }}
+                                  width={40}
+                                  height={40}
+                                />
+                                <br />
+                                <div className="text-muted small text-nowrap mt-2">
+                                  {moment
+                                    .utc(message.date)
+                                    .local()
+                                    .startOf("seconds")
+                                    .fromNow()}
+                                </div>
+                              </div>
+                              <div className="flex-shrink-1 bg-light rounded py-2 px-3 ml-3">
+                                <div className="font-weight-bold mb-1">
+                                  {/* {message.reciever_profile.full_name} */}
+                                  You
+                                </div>
+                                {message.message}
+                                {message.file && (
+                                  <div>
+                                    <a
+                                      href={message.file}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                    >
+                                      View Attachment
+                                    </a>
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+                          )}
+                        </>
+                      </>
+                    ))}
                   </div>
                 </div>
                 <div className="flex-grow-0 py-3 px-4 border-top">
@@ -319,23 +429,30 @@ function MessageDetail() {
                       type="text"
                       className="form-control"
                       placeholder="Type your message"
-                      value={newMessage.message} 
-                      name="message" 
-                      id='text-input'
+                      value={newMessage.message}
+                      name="message"
+                      id="text-input"
                       onChange={handleChange}
                     />
                     {/* added code */}
                     <input
-                    type="file"
-                    className="form-control"
-                    accept=".pdf"
-                    onChange={handleFileChange}
-                    style={{ display: 'none' }}
-                    id="file-input"
-                  />
-                  <label htmlFor="file-input" className="btn btn-secondary ml-2">Select PDF</label>
-                  {/* addition over */}
-                    <button onClick={SendMessage} className="btn btn-primary">Send</button>
+                      type="file"
+                      className="form-control"
+                      accept=".pdf"
+                      onChange={handleFileChange}
+                      style={{ display: "none" }}
+                      id="file-input"
+                    />
+                    <label
+                      htmlFor="file-input"
+                      className="btn btn-secondary ml-2"
+                    >
+                      Select PDF
+                    </label>
+                    {/* addition over */}
+                    <button onClick={SendMessage} className="btn btn-primary">
+                      Send
+                    </button>
                   </div>
                 </div>
               </div>
@@ -344,10 +461,7 @@ function MessageDetail() {
         </div>
       </main>
     </div>
-  )
+  );
 }
 
-export default MessageDetail
-
-
-
+export default MessageDetail;
