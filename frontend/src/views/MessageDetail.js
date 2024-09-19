@@ -7,7 +7,7 @@ import { Link, useParams, useHistory } from "react-router-dom/";
 import moment from "moment";
 
 function MessageDetail() {
-  const baseURL = "http://127.0.0.1:8000/api";
+  const baseURL = "http://127.0.0.1:8000/api" || "http://35.154.8.140:8000/api";
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState([]);
   const [user, setUser] = useState([]);

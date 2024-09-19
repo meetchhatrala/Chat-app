@@ -8,7 +8,7 @@ import moment from 'moment';
 
 function Message() {
 
-  const baseURL = 'http://127.0.0.1:8000/api'
+  const baseURL = 'http://127.0.0.1:8000/api' || 'http://35.154.8.140:8000/api'
   // Create New State
   const [messages, setMessages] = useState([])
   let [newSearch, setnewSearch] = useState({search: "",});

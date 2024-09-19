@@ -9,7 +9,7 @@ const swal = require('sweetalert2')
 
 function SearchUsers() {
 
-  const baseURL = 'http://127.0.0.1:8000/api'
+  const baseURL = 'http://127.0.0.1:8000/api' || 'http://35.154.8.140:8000/api'
   const [users, setUser] = useState([])
   const [profiles, setProfile] = useState([])
   let [newSearch, setnewSearch] = useState({search: "",});

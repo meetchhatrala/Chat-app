@@ -5,7 +5,7 @@ import Swal from 'sweetalert2'
 
 
 function Todo() {
-    const baseUrl = "http://127.0.0.1:8000/api"
+    const baseUrl = "http://127.0.0.1:8000/api" || "http://35.154.8.140:8000/api"
     const api = useAxios()
 
     const token = localStorage.getItem("authTokens") // 233704237huhweioyop;yrwriweyrwe
